@@ -28,8 +28,9 @@
       "dest": "/index.html"
     }
   ],
-  "env": {
-    "REACT_APP_API_URL": "http://localhost:8000"
+  "build": {
+    "env": {
+      "REACT_APP_API_URL": "@react_app_api_url"
+    }
   }
 }
-
