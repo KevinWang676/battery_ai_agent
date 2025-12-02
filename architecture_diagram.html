@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multi-Agent System Architecture - Electrolyte Design</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+            color: #e8e8e8;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        h1 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(90deg, #00d9ff, #00ff88);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .subtitle {
+            text-align: center;
+            color: #888;
+            margin-bottom: 40px;
+            font-size: 1.1rem;
+        }
+        .diagram-section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 30px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .diagram-section h2 {
+            color: #00d9ff;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+            border-bottom: 2px solid #00d9ff;
+            padding-bottom: 10px;
+        }
+        .mermaid {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 12px;
+            padding: 20px;
+            overflow-x: auto;
+        }
+        .legend {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+        }
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+        }
+        .orchestrator { background: #ff6b6b; }
+        .sub-agent { background: #4ecdc4; }
+        .service { background: #ffe66d; }
+        .data { background: #95e1d3; }
+        .flow { background: #dfe6e9; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔋 Electrolyte Design Multi-Agent System</h1>
+        <p class="subtitle">Architecture & Workflow Diagram</p>
+
+        <!-- Main Architecture Diagram -->
+        <div class="diagram-section">
+            <h2>📊 System Architecture Overview</h2>
+            <div class="mermaid">
+flowchart TB
+    subgraph USER["👤 User Interface"]
+        Q[/"User Query"/]
+        R[/"Response + Experiment Plans"/]
+    end
+
+    subgraph ORCHESTRATOR["🎯 OrchestratorAgent"]
+        direction TB
+        CLASSIFY["Query Classifier<br/>(GPT-4.1)"]
+        ROUTER{"Route by<br/>Query Type"}
+        SIMPLE["Simple Response<br/>Handler"]
+        DESIGN["Design Workflow<br/>Coordinator"]
+        SUMMARY["Summary<br/>Generator"]
+    end
+
+    subgraph AGENTS["🤖 Specialized Agents"]
+        direction TB
+        LIT["📚 LiteratureRAGAgent<br/>• Vector Store Search<br/>• Knowledge Base Lookup"]
+        PROP["⚗️ PropertyCompatibilityAgent<br/>• Component Analysis<br/>• Issue Detection"]
+        PRED["📈 PerformancePredictionAgent<br/>• Capacity Prediction<br/>• Cycle Life Estimation"]
+        PLAN["📋 ExperimentPlanningAgent<br/>• Formulation Generation<br/>• Protocol Design"]
+    end
+
+    subgraph SERVICES["⚙️ Services"]
+        LLM["🧠 LLMService<br/>(GPT-4.1 API)"]
+        DOC["📄 DocumentService<br/>(PDF Processing)"]
+        VS[("🗄️ Vector Store<br/>(ChromaDB)")]
+    end
+
+    Q --> CLASSIFY
+    CLASSIFY --> ROUTER
+    
+    ROUTER -->|"greeting/help/off_topic"| SIMPLE
+    ROUTER -->|"literature_search"| LIT
+    ROUTER -->|"property_check"| PROP
+    ROUTER -->|"electrolyte_design"| DESIGN
+    
+    DESIGN --> LIT
+    LIT --> PROP
+    PROP --> PRED
+    PRED --> PLAN
+    
+    PLAN --> SUMMARY
+    SIMPLE --> R
+    SUMMARY --> R
+
+    LIT <-.-> VS
+    LIT <-.-> LLM
+    PROP <-.-> LLM
+    PRED <-.-> LLM
+    PLAN <-.-> LLM
+    DOC --> VS
+
+    style ORCHESTRATOR fill:#ff6b6b22,stroke:#ff6b6b,stroke-width:2px
+    style AGENTS fill:#4ecdc422,stroke:#4ecdc4,stroke-width:2px
+    style SERVICES fill:#ffe66d22,stroke:#ffe66d,stroke-width:2px
+    style USER fill:#95e1d322,stroke:#95e1d3,stroke-width:2px
+            </div>
+        </div>
+
+        <!-- Query Classification Flow -->
+        <div class="diagram-section">
+            <h2>🔀 Query Classification & Routing</h2>
+            <div class="mermaid">
+flowchart LR
+    subgraph INPUT["Input"]
+        Q["User Query"]
+    end
+
+    subgraph CLASSIFY["Classification Logic"]
+        H1{"Greeting?<br/>'hello', 'hi'..."}
+        H2{"Help Request?<br/>'help', 'how to'..."}
+        LLM_C["GPT-4.1<br/>Classification"]
+    end
+
+    subgraph TYPES["Query Types"]
+        T1["🖐️ GREETING"]
+        T2["❓ HELP"]
+        T3["🚫 OFF_TOPIC"]
+        T4["🔬 ELECTROLYTE_DESIGN"]
+        T5["📚 LITERATURE_SEARCH"]
+        T6["⚗️ PROPERTY_CHECK"]
+    end
+
+    subgraph ACTION["Action"]
+        A1["Direct Response<br/>(No Agents)"]
+        A2["LiteratureRAGAgent<br/>Only"]
+        A3["PropertyCompatibilityAgent<br/>Only"]
+        A4["Full Design<br/>Workflow"]
+    end
+
+    Q --> H1
+    H1 -->|Yes| T1
+    H1 -->|No| H2
+    H2 -->|Yes| T2
+    H2 -->|No| LLM_C
+    LLM_C --> T3
+    LLM_C --> T4
+    LLM_C --> T5
+    LLM_C --> T6
+
+    T1 --> A1
+    T2 --> A1
+    T3 --> A1
+    T5 --> A2
+    T6 --> A3
+    T4 --> A4
+
+    style T4 fill:#4ecdc4,stroke:#333
+    style A4 fill:#ff6b6b,stroke:#333
+            </div>
+        </div>
+
+        <!-- Full Design Workflow -->
+        <div class="diagram-section">
+            <h2>🔬 Full Electrolyte Design Workflow (Sequential)</h2>
+            <div class="mermaid">
+sequenceDiagram
+    autonumber
+    participant U as 👤 User
+    participant O as 🎯 Orchestrator
+    participant L as 📚 LiteratureRAG
+    participant P as ⚗️ PropertyCompat
+    participant PR as 📈 Performance
+    participant E as 📋 Experiment
+    participant LLM as 🧠 GPT-4.1
+
+    U->>O: Query: "Design high-voltage electrolyte for NMC/Si"
+    
+    rect rgb(255, 107, 107, 0.1)
+        Note over O: Step 0: Query Analysis
+        O->>LLM: Classify query type
+        LLM-->>O: "electrolyte_design" (confidence: 0.95)
+        O->>LLM: Extract requirements
+        LLM-->>O: {voltage: 4.5V, anode: Si, cathode: NMC}
+    end
+
+    rect rgb(78, 205, 196, 0.1)
+        Note over L: Step 1: Literature Search
+        O->>L: Search for relevant literature
+        L->>L: Query Vector Store (ChromaDB)
+        L->>L: Search Knowledge Base
+        L->>LLM: Summarize findings
+        LLM-->>L: Literature summary
+        L-->>O: {results: [...], summary: "..."}
+    end
+
+    rect rgb(78, 205, 196, 0.1)
+        Note over P: Step 2: Property & Compatibility
+        O->>P: Analyze components [EC, EMC, LiPF6, FEC]
+        P->>P: Check compatibility rules
+        P->>P: Identify issues
+        P->>LLM: Enhance analysis
+        LLM-->>P: Detailed compatibility report
+        P-->>O: {issues: [...], recommendations: [...]}
+    end
+
+    rect rgb(78, 205, 196, 0.1)
+        Note over PR: Step 3: Performance Prediction
+        O->>PR: Predict performance metrics
+        PR->>PR: Calculate ionic conductivity
+        PR->>PR: Estimate cycle life
+        PR->>PR: Predict capacity retention
+        PR-->>O: {predictions: {...}, confidence: 0.82}
+    end
+
+    rect rgb(78, 205, 196, 0.1)
+        Note over E: Step 4: Experiment Planning
+        O->>E: Generate experiment plans
+        E->>E: Create 3 formulations
+        E->>E: Design protocols
+        E->>LLM: Generate rationale for each
+        LLM-->>E: Scientific rationales
+        E-->>O: {plans: [Plan1, Plan2, Plan3]}
+    end
+
+    rect rgb(255, 230, 109, 0.1)
+        Note over O: Step 5: Summarize Results
+        O->>O: Compile all agent responses
+        O->>O: Generate final summary
+    end
+
+    O-->>U: Complete Response + 3 Experiment Plans
+            </div>
+        </div>
+
+        <!-- Agent Details -->
+        <div class="diagram-section">
+            <h2>🤖 Agent Responsibilities</h2>
+            <div class="mermaid">
+flowchart TB
+    subgraph LIT["📚 LiteratureRAGAgent"]
+        L1["Search uploaded PDFs<br/>(Vector Store)"]
+        L2["Query knowledge base<br/>(Solvents, Salts, Additives)"]
+        L3["Return relevant excerpts<br/>with relevance scores"]
+    end
+
+    subgraph PROP["⚗️ PropertyCompatibilityAgent"]
+        P1["Analyze component properties<br/>(viscosity, conductivity, stability)"]
+        P2["Check pairwise compatibility<br/>(solvent-salt, additive interactions)"]
+        P3["Identify operating condition issues<br/>(voltage, temperature limits)"]
+    end
+
+    subgraph PRED["📈 PerformancePredictionAgent"]
+        PR1["Predict ionic conductivity<br/>(based on formulation)"]
+        PR2["Estimate cycle life<br/>(electrode + electrolyte factors)"]
+        PR3["Calculate capacity retention<br/>(degradation modeling)"]
+    end
+
+    subgraph PLAN["📋 ExperimentPlanningAgent"]
+        E1["Generate 3 formulations<br/>(Conservative, Balanced, Aggressive)"]
+        E2["Design synthesis protocols<br/>(steps, conditions, safety)"]
+        E3["Estimate cost & timeline"]
+    end
+
+    LIT --> PROP
+    PROP --> PRED
+    PRED --> PLAN
+
+    style LIT fill:#e8f5e9,stroke:#4caf50
+    style PROP fill:#fff3e0,stroke:#ff9800
+    style PRED fill:#e3f2fd,stroke:#2196f3
+    style PLAN fill:#fce4ec,stroke:#e91e63
+            </div>
+        </div>
+
+        <!-- Data Flow -->
+        <div class="diagram-section">
+            <h2>📦 Data Flow Between Agents</h2>
+            <div class="mermaid">
+flowchart LR
+    subgraph IN["Input Data"]
+        Q["query: string"]
+    end
+
+    subgraph LIT_IO["LiteratureRAGAgent"]
+        LIT_IN["Input:<br/>• query"]
+        LIT_OUT["Output:<br/>• results[]<br/>• summary<br/>• sources_count"]
+    end
+
+    subgraph PROP_IO["PropertyCompatibilityAgent"]
+        PROP_IN["Input:<br/>• components[]<br/>• operating_conditions<br/>• electrode_materials"]
+        PROP_OUT["Output:<br/>• compatibility_issues[]<br/>• recommendations[]<br/>• property_data"]
+    end
+
+    subgraph PRED_IO["PerformancePredictionAgent"]
+        PRED_IN["Input:<br/>• formulation{}<br/>• operating_conditions<br/>• electrode_materials"]
+        PRED_OUT["Output:<br/>• predictions{}<br/>• confidence_score<br/>• warnings[]"]
+    end
+
+    subgraph PLAN_IO["ExperimentPlanningAgent"]
+        PLAN_IN["Input:<br/>• query<br/>• literature_data<br/>• property_data<br/>• prediction_data"]
+        PLAN_OUT["Output:<br/>• experiment_plans[]<br/>• total_plans: 3"]
+    end
+
+    Q --> LIT_IN
+    LIT_IN --> LIT_OUT
+    LIT_OUT --> PROP_IN
+    PROP_IN --> PROP_OUT
+    PROP_OUT --> PRED_IN
+    PRED_IN --> PRED_OUT
+    PRED_OUT --> PLAN_IN
+    PLAN_IN --> PLAN_OUT
+
+    style LIT_IO fill:#e8f5e9,stroke:#4caf50
+    style PROP_IO fill:#fff3e0,stroke:#ff9800
+    style PRED_IO fill:#e3f2fd,stroke:#2196f3
+    style PLAN_IO fill:#fce4ec,stroke:#e91e63
+            </div>
+        </div>
+
+        <!-- Legend -->
+        <div class="diagram-section">
+            <h2>📝 Legend</h2>
+            <div class="legend">
+                <div class="legend-item">
+                    <div class="legend-color orchestrator"></div>
+                    <span>OrchestratorAgent - Central coordinator</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color sub-agent"></div>
+                    <span>Sub-Agents - Specialized workers</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color service"></div>
+                    <span>Services - LLM & Document processing</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color data"></div>
+                    <span>Data Stores - Vector DB, Knowledge Base</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'default',
+            flowchart: {
+                useMaxWidth: true,
+                htmlLabels: true,
+                curve: 'basis'
+            },
+            sequence: {
+                useMaxWidth: true,
+                mirrorActors: false
+            }
+        });
+    </script>
+</body>
+</html>
+

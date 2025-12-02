@@ -1,0 +1,106 @@
+.demo-banner {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+  color: #1a1a1a;
+  padding: 0.75rem 1rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.demo-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.demo-icon {
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+
+.demo-text {
+  flex: 1;
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.demo-text strong {
+  display: inline-block;
+  background: rgba(0, 0, 0, 0.1);
+  padding: 0.125rem 0.5rem;
+  border-radius: 4px;
+  margin-right: 0.5rem;
+}
+
+.demo-link {
+  display: inline-block;
+  margin-left: 0.75rem;
+  color: #1a1a1a;
+  font-weight: 600;
+  text-decoration: none;
+  padding: 0.25rem 0.75rem;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.demo-link:hover {
+  background: rgba(255, 255, 255, 0.5);
+  transform: translateX(2px);
+}
+
+.demo-close {
+  background: rgba(0, 0, 0, 0.1);
+  border: none;
+  color: #1a1a1a;
+  font-size: 1.5rem;
+  line-height: 1;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.demo-close:hover {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+/* Adjust main content when banner is visible */
+body:has(.demo-banner) .header {
+  margin-top: 60px;
+}
+
+@media (max-width: 768px) {
+  .demo-content {
+    flex-wrap: wrap;
+  }
+
+  .demo-text {
+    order: 1;
+    flex-basis: 100%;
+    margin-top: 0.5rem;
+  }
+
+  .demo-icon {
+    order: 0;
+  }
+
+  .demo-close {
+    order: 0;
+    margin-left: auto;
+  }
+
+  .demo-link {
+    display: block;
+    margin-left: 0;
+    margin-top: 0.5rem;
+    text-align: center;
+  }
+}
+
