@@ -3,7 +3,7 @@ import { useDropzone } from 'react-dropzone';
 import { motion, AnimatePresence } from 'framer-motion';
 import './FileUpload.css';
 
-const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:8000';
+const API_URL = process.env.REACT_APP_API_URL || 'https://battery0676.ngrok.app';
 
 function FileUpload({ onUpload, uploadedFiles, onIndexComplete }) {
   const [isUploading, setIsUploading] = useState(false);

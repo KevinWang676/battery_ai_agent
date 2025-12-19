@@ -350,3 +350,5 @@ class PropertyCompatibilityAgent(BaseAgent):
         return [k for k, v in self.property_database.items() 
                 if v.get("category") == category]
 
+
+

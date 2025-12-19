@@ -72,3 +72,5 @@ class LiteratureSearchResult(BaseModel):
     relevance_score: float
     source: str
 
+
+

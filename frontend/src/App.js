@@ -10,7 +10,7 @@ import Summary from './components/Summary';
 import References from './components/References';
 import './styles/App.css';
 
-const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:8000';
+const API_URL = process.env.REACT_APP_API_URL || 'https://battery0676.ngrok.app';
 
 function App() {
   const [query, setQuery] = useState('');
