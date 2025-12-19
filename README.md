@@ -16,7 +16,7 @@ A multi-agent AI system for battery electrolyte design, powered by GPT-4.1 and R
 
 ## 🚀 Live Demo
 
-The frontend demo is available at: [Vercel Deployment](https://battery-ai-agent.vercel.app)
+The frontend demo is available at: [Vercel Deployment](https://battery-ai-agent-j0ga6wqus-kevinwang676s-projects.vercel.app)
 
 > ⚠️ **Note**: The demo frontend is for UI demonstration only. The backend API requires local deployment.
 
